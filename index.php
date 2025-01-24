@@ -43,6 +43,18 @@ try{
                 $result = $req->fetchAll();
                 echo json_encode($result);
             break;
+
+            case 'infosCommandes':
+                if (isset($_GET['id'])) {
+                    $req = $bdd->prepare("SELECT id_commande, id_status, libelle, date_status FROM status_passer JOIN status ON status_passer.id_status = status.id WHERE id_commande = :id");
+                    $req->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+                    $req->execute();
+                    $result = $req->fetchAll();
+                    echo json_encode($result);
+                } else {
+                    throw new Exception('id manquant');
+                }
+            break;
         }
     }
 
